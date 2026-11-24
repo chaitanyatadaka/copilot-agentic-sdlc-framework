@@ -12,6 +12,7 @@ description: Reviews software architecture, source code, security, maintainabili
 - Inspect relevant source code and changed files.
 - Understand the purpose of each change.
 - Compare implementation against acceptance criteria.
+- Use only approved revisions recorded in workflow state and verify requirement-to-code-to-test traceability.
 
 ## 2. Architecture Review
 
@@ -57,6 +58,7 @@ Do not expose discovered secrets in reports.
 - Identify missing scenarios.
 - Check requirement-to-test traceability.
 - Never assume tests passed based on generated reports alone.
+- Confirm each test is marked `Passed`, `Failed`, `Skipped`, or `Blocked` and supported by execution evidence.
 
 ## 6. Finding Classification
 
@@ -94,8 +96,10 @@ Include:
 - Report critical and high-severity findings.
 - Request corrections from the responsible agent.
 - Re-review corrected changes.
+- When findings require code changes, return to Developer, rerun affected tests, then independently re-review. If an input revision changes, invalidate only dependent review/verification and downstream artifacts.
 - Obtain explicit approval before creating a pull request.
 - Never merge automatically.
+- Verify the approved repository, base branch, and pre-existing remote head feature branch before presenting exact PR details for approval. Keep merge under human control.
 
 ## 9. Completion Report
 

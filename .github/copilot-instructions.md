@@ -40,6 +40,10 @@ Obtain explicit human approval before:
 
 Never assume approval from silence or an agent's recommendation.
 
+For protected Jira, GitHub, local-edit, and execution operations, approval must identify the operation and scope. Use the runtime approval prompt when available; stop if it is unavailable or ambiguous. Agent tool allowlists restrict tools only for the selected custom agent. Instructions and workflow-state files are records, not authorization. Hook `ask` requires an interactive runtime, and hook timeout or launch failures may fall through to normal permissions; do not claim a protected operation is enforced unless verified in the active Copilot harness. Do not bypass the host's script execution policy to launch a hook; if policy prevents the hook from starting, stop protected operations and request an approved script-signing or execution-policy solution.
+
+Follow `.github/skills/agentic-sdlc-workflow/SKILL.md` and `docs/workflow/state.md` for stage exit criteria, requirement traceability, invalidation, recovery, and resumption. Do not advance while required approval, evidence, or defect resolution is missing.
+
 ## 5. Engineering Quality
 - Follow approved architecture and coding standards.
 - Prefer simple, modular and maintainable solutions.

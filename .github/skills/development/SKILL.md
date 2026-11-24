@@ -13,6 +13,7 @@ Before implementation:
 - Read the implementation plan.
 - Inspect relevant existing source code.
 - Identify the assigned implementation tasks.
+- Confirm each task and requirement ID is approved in `docs/workflow/state.md`.
 
 Never assume a predefined application or technology stack.
 
@@ -28,6 +29,7 @@ Never assume a predefined application or technology stack.
 
 - Follow approved architecture and design decisions.
 - Implement only approved functionality.
+- Map changed components and tests to approved requirement IDs and plan task IDs.
 - Follow language-specific coding standards.
 - Use appropriate design patterns without overengineering.
 - Implement input validation and error handling.
@@ -60,6 +62,7 @@ Ensure code is:
 - Apply the smallest reasonable correction.
 - Avoid suppressing errors or bypassing validation.
 - Report unresolved blockers.
+- Stop and return changes to the Orchestrator when requirements, architecture, or approved scope changes; do not continue against stale approvals.
 
 ## 7. Documentation
 

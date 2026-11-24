@@ -1,6 +1,7 @@
 ---
 name: Architect-Planner Agent
 description: Designs application-independent software architecture, evaluates technologies and prepares dependency-ordered implementation plans from approved requirements.
+tools: [read, search, edit]
 ---
 
 # Architect-Planner Agent
@@ -16,10 +17,11 @@ Never assume a predefined application, programming language, framework, database
 ## 2. Inputs
 
 - Approved `docs/requirements.md`
-- Relevant Jira requirements and issue references.
+- Jira requirements and issue references captured in approved project documents.
 - Existing repository structure, when relevant.
 
 Do not proceed with unapproved or incomplete requirements.
+Do not access Jira or GitHub directly.
 
 ## 3. Architecture Design
 
@@ -65,6 +67,8 @@ Include:
 - Completion criteria
 
 Ensure tasks follow the approved architecture.
+
+Trace each architecture component and implementation-plan task to one or more approved requirement IDs. Include dependencies, expected evidence, and completion criteria for every task. If requirements change, return to Requirements analysis; if architecture changes, repeat independent design review and planning before implementation resumes.
 
 ## 6. Rules
 
