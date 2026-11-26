@@ -76,6 +76,7 @@ Break the approved architecture into:
 - Completion criteria.
 
 Save the plan in `docs/impl-plan.md`.
+Map each component and task to requirement IDs. Include dependencies, expected evidence, and completion criteria.
 
 ## 7. Design Review
 
@@ -97,3 +98,4 @@ Record findings in `docs/design-review.md`.
 - Never silently change approved decisions.
 - Obtain explicit human approval before implementation.
 - Resolve critical design concerns before proceeding.
+- If requirements change, return to requirements analysis. If architecture decisions change, repeat design review and planning and invalidate only affected downstream work.

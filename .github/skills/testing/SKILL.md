@@ -11,6 +11,7 @@ description: Plans, creates and executes automated tests and verifies applicatio
 - Review architecture and implementation.
 - Identify critical application workflows.
 - Map test scenarios to requirements.
+- Assign test IDs and map each test to requirement IDs and implementation task IDs.
 - Use the testing tools appropriate to the approved technology stack.
 
 ## 2. Test Planning
@@ -54,6 +55,7 @@ Define clear expected results for every test.
 - Verify application startup and important workflows.
 - Capture actual execution results.
 - Identify failed, skipped and blocked tests.
+- Classify every test as exactly one of `Passed`, `Failed`, `Skipped`, or `Blocked`; record the procedure or command, evidence, and a reason for every skipped or blocked test.
 - Never claim a test passed without execution evidence.
 
 ## 6. Defect Management
@@ -70,6 +72,7 @@ For each failure, record:
 Coordinate fixes with the Developer Agent.
 
 Re-run affected tests after corrections.
+Re-run dependent regression checks after fixes and update their evidence and statuses.
 
 ## 7. Verification Reports
 
@@ -89,3 +92,4 @@ Include test coverage, execution evidence, defects and unresolved limitations.
 - Results are presented for human acceptance.
 
 Never mark verification complete when important tests remain unresolved.
+Block completion when a mandatory test is `Failed`, `Blocked`, or `Skipped` without explicit human acceptance of the limitation.

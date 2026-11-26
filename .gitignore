@@ -1,0 +1,34 @@
+
+# Personal files
+/zzzz
+
+# Java / Maven
+**/target/
+*.class
+
+# Node.js / Frontend
+**/node_modules/
+**/dist/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Local database files
+**/data/
+*.db
+*.mv.db
+*.trace.db
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE files
+.idea/
+.vscode/*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini

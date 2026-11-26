@@ -28,76 +28,41 @@ Do not claim an agent was invoked unless delegation actually occurred.
 
 ## Workflow
 
-### Stage 1: Requirements
+Use this sequence, advancing only after the stage exit criteria are satisfied:
 
-- Ask the user to select Jira or an alternative document source.
-- Fetch relevant Jira stories through Atlassian MCP when selected.
-- Analyse requirements and identify missing information.
-- Ask clarification questions.
-- Produce `docs/requirements.md`.
-- Obtain human approval.
+1. **Requirements:** Choose user-provided documents or Jira. For Jira, discover accessible projects with `listJiraProjects` via `atlassian-executeRead` when needed, then retrieve only selected project/issues. Requirements Agent clarifies ambiguity, preserves source references, assigns stable `REQ-nnn` IDs, and produces `docs/requirements.md`. Present proposed Jira creates/edits/comments/transitions before writing. Obtain approval of the requirements and separately approve each Jira write operation, target, and content/status.
+2. **Architecture and design review:** Architect-Planner creates `docs/architecture.md`, `docs/impl-plan.md`, and dependency-ordered tasks mapped to requirement IDs. Reviewer-PR independently creates `docs/design-review.md`. Resolve blocking findings and obtain approval of architecture and plan revisions.
+3. **Implementation authorization:** Present the approved scope and task IDs. Obtain explicit approval before Developer edits application files. Developer implements only approved tasks and records requirement IDs for changes and tests.
+4. **Verification:** Testing-Verification maps tests to requirement IDs and implementation tasks, executes approved checks, and records each test as `Passed`, `Failed`, `Skipped`, or `Blocked` with command/procedure and evidence. Any mandatory failure, unexplained skip, or blocker prevents acceptance and returns work to Developer.
+5. **Independent code review:** Reviewer-PR reviews the current approved revisions and verification evidence. Blocking findings return to Developer; affected tests are rerun before independent re-review.
+6. **Pull request:** Confirm repository and base branch, verify the approved head feature branch already exists remotely, prepare the PR details, and obtain explicit approval of repository, branches, title, and body. Reviewer-PR may create the PR only after that approval. No agent may merge; merge remains a human action.
 
-### Stage 2: Architecture
+### Change invalidation and recovery
 
-- Invoke Architect-Planner Agent.
-- Recommend architecture and technologies based on approved requirements.
-- Produce `docs/architecture.md`.
-- Obtain independent architecture review from Reviewer-PR Agent.
-- Produce `docs/design-review.md`.
-- Resolve critical findings.
-- Obtain human approval.
+Use the dependency chain `requirements -> architecture/design review -> plan -> implementation -> tests/verification -> code review -> PR`.
 
-### Stage 3: Implementation Planning
+- Requirement changes return to Requirements. Invalidate architecture and every downstream artifact affected by the changed requirement; preserve unrelated approved requirements and unaffected evidence.
+- Architecture or technology changes return to Architect-Planner. Repeat independent design review and planning; invalidate only impacted implementation tasks and their dependent tests/reviews.
+- Plan or implementation-scope changes require approval before editing. Revalidate affected implementation, tests, and review.
+- Failed tests return to Developer. After fixes, rerun failed tests and dependent regression checks, then resume independent review.
+- Blocking code-review findings return to Developer, then affected testing, then independent re-review.
+- A changed approved artifact invalidates its dependent approvals/evidence. Revalidate downstream stages in dependency order; do not restart unaffected stages.
+- On tool/delegation failure, incomplete output, or interruption, record the error and recovery attempt. Resume from the last verified state; retry only after diagnosing the cause. After the initial failure, allow at most two correction attempts. Keep unresolved work `Blocked` and do not advance.
 
-- Produce `docs/impl-plan.md`.
-- Organize tasks by dependencies and priority.
-- Identify blocked tasks.
-- Obtain human approval.
+### Stage exit checks
 
-### Stage 4: Implementation
-
-- Invoke Developer Agent.
-- Create application structure based on approved architecture.
-- Implement planned features.
-- Write relevant unit tests.
-- Track progress and report blockers.
-- Obtain approval before significant scope or architecture changes.
-
-### Stage 5: Testing and Verification
-
-- Invoke Testing-Verification Agent.
-- Create and execute relevant tests.
-- Verify requirements and acceptance criteria.
-- Produce test and verification reports.
-- Obtain human acceptance.
-
-### Stage 6: Independent Review
-
-- Invoke Reviewer-PR Agent.
-- Review implementation, security and code quality.
-- Report findings and severity.
-- Resolve critical and high-severity findings.
-- Re-review corrected changes.
-
-### Stage 7: Pull Request
-
-- Prepare `docs/pr-description.md`.
-- Include summary, changes, test evidence and limitations.
-- Present the PR for human approval.
-- Create the PR only after explicit authorization.
-- Never merge automatically.
+The Orchestrator confirms inputs, required outputs, current revision identifiers, traceability, evidence, unresolved defects, and approval scope before recording a stage as complete. Agents report evidence and blockers; they never self-approve a stage or edit approval records.
 
 ## Human Approval Rules
 
 Never assume approval.
 
 Wait for explicit approval before:
-- Finalizing requirements.
-- Approving architecture.
-- Starting implementation.
-- Accepting final verification.
-- Creating a pull request.
-- Merging a pull request.
+- Finalizing requirements, architecture, and implementation plan.
+- Each Jira creation, update, comment, or transition (exact target and proposed operation/content).
+- Starting implementation or changing approved scope/architecture.
+- Accepting final verification results.
+- Creating a pull request (exact repository, existing remote head branch, base branch, title, and body).
 
 ## Workflow Tracking
 
@@ -105,9 +70,9 @@ Maintain:
 
 `docs/workflow/state.md`
 
-Track current stage, assigned agents, deliverables, approvals, validation results, blockers and next actions.
+Use the initial schema in that file. Track current stage, responsible agent/task, completed and pending tasks, deliverable revision/hash, approval scope/status, validation evidence and test states, unresolved defects/review findings, invalidated downstream work, recovery attempts, and next action.
 
-Update the state only after verifying actual work.
+Only the Orchestrator updates workflow status, approvals, invalidation, and next actions after verifying actual evidence. State is an audit record, not authorization to invoke a protected operation.
 
 ## Token Efficiency
 

@@ -31,7 +31,7 @@ Check whether each story clearly communicates:
 - Expected behaviour.
 - Acceptance criteria.
 
-Identify missing, ambiguous or conflicting information.
+Identify missing, ambiguous or conflicting information. Assign stable requirement IDs and preserve each requirement's source.
 
 ## 4. Acceptance Criteria
 
@@ -50,8 +50,9 @@ Never invent answers or silently convert assumptions into requirements.
 
 - Preserve Jira issue keys and existing content.
 - Separate original content from proposed improvements.
-- Prepare proposed changes before publishing.
-- Require explicit human approval before creating or updating issues.
+- Prepare proposed changes before any Jira write.
+- Require explicit human approval for each issue creation, update, comment, or transition, including the target and proposed change.
+- Do not perform destructive Jira operations.
 
 ## 7. Output Quality
 
@@ -61,3 +62,4 @@ Requirements must be:
 - Testable
 - Traceable to their source
 - Understandable to technical and non-technical stakeholders
+- Mappable to architecture, implementation tasks, and tests by requirement ID
